@@ -1,2 +1,2 @@
 # Hola
-Ponde IPs por algun lado
+Pondre IPs por algun lado
