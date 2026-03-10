@@ -167,10 +167,10 @@ button:disabled{
   /* Background image from Unsplash with a light overlay to preserve legibility.
      Option: replace the URL below with a local file like 'portada.jpg' if you download the image. */
   background:
-    /* overlay reducido a la mitad para hacer la imagen 50% más visible */
-    radial-gradient(circle at top, rgba(255,255,255,0.425), transparent 28%),
-    /* subtle paper gradient fallback con opacidad reducida */
-    linear-gradient(180deg, rgba(255,253,249,0.475) 0%, rgba(244,238,231,0.475) 100%),
+  /* overlay ajustado (+20% opacidad respecto al estado anterior) para reducir visibilidad de la imagen */
+  radial-gradient(circle at top, rgba(255,255,255,0.51), transparent 28%),
+  /* subtle paper gradient fallback con opacidad aumentada */
+  linear-gradient(180deg, rgba(255,253,249,0.57) 0%, rgba(244,238,231,0.57) 100%),
     /* Use a local image named 'portada.jpg' (put it in the project root). */
     url('portada.jpg') center/cover no-repeat;
 }
