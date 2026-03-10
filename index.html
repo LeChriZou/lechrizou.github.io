@@ -4,111 +4,259 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Divina comida</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Great+Vibes&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
 <style>
+:root{
+  --bg:#e7e1da;
+  --panel:#f8f4ef;
+  --paper:#fffdf9;
+  --ink:#2f241d;
+  --muted:#7a685d;
+  --line:rgba(92,72,58,0.14);
+  --shadow:0 24px 60px rgba(49,32,22,0.18);
+}
+
+*{box-sizing:border-box}
+
 body{
   margin:0;
-  font-family: Arial, Helvetica, sans-serif;
-  background:#e7e5e4;
+  font-family:"Inter", Arial, sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(circle at top, rgba(255,255,255,0.55), transparent 32%),
+    linear-gradient(180deg, #ece5de 0%, #ddd4cb 100%);
+  min-height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
-  min-height:100vh;
+  padding:20px;
+}
+
+.scene{
+  width:min(1080px, 100%);
+  perspective:1800px;
 }
 
 .container{
-  width:95%;
-  max-width:900px;
-  background:#f5f5f4;
-  border-radius:24px;
-  padding:16px;
-  box-shadow:0 20px 40px rgba(0,0,0,0.15);
+  width:100%;
+  background:rgba(248,244,239,0.74);
+  border:1px solid rgba(88,69,57,0.12);
+  border-radius:30px;
+  padding:18px;
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(8px);
 }
 
 .nav{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:12px;
+  gap:12px;
+  margin-bottom:14px;
+}
+
+.nav-center{
+  text-align:center;
+  flex:1;
+}
+
+.kicker{
+  font-size:11px;
+  letter-spacing:.32em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+#label{
+  font-family:"Cormorant Garamond", serif;
+  font-size:24px;
+  font-weight:600;
+  line-height:1;
+  margin-top:4px;
 }
 
 button{
-  border:none;
-  padding:10px 16px;
-  border-radius:20px;
-  background:white;
+  border:1px solid rgba(88,69,57,0.12);
+  padding:11px 18px;
+  border-radius:999px;
+  background:rgba(255,255,255,0.82);
   cursor:pointer;
   font-size:14px;
-  box-shadow:0 3px 8px rgba(0,0,0,0.15);
+  color:var(--ink);
+  box-shadow:0 8px 20px rgba(30,18,10,0.08);
+  transition:transform .2s ease, background .2s ease, opacity .2s ease;
+  min-width:108px;
+}
+
+button:hover:not(:disabled){
+  transform:translateY(-1px);
+  background:#fff;
 }
 
 button:disabled{
-  opacity:0.4;
+  opacity:.38;
   cursor:not-allowed;
 }
 
 .viewer{
   overflow:hidden;
-  border-radius:20px;
+  border-radius:24px;
+  position:relative;
+  background:linear-gradient(180deg, rgba(255,255,255,0.25), rgba(255,255,255,0.02));
 }
 
 .slider{
   display:flex;
-  transition:transform .5s ease;
+  transition:transform .7s cubic-bezier(.22,.8,.2,1);
+  will-change:transform;
+}
+
+.page-wrap{
+  min-width:100%;
+  padding:18px 10px 14px;
+  transform-style:preserve-3d;
 }
 
 .page{
-  min-width:100%;
-  min-height:70vh;
-  background:white;
-  padding:40px 24px;
-  box-sizing:border-box;
+  min-height:72vh;
+  background:var(--paper);
+  border-radius:24px;
+  overflow:hidden;
+  box-shadow:
+    inset 0 0 0 1px rgba(110,85,66,0.08),
+    0 18px 40px rgba(40,24,14,0.12);
+  position:relative;
+}
+
+.page::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(90deg, rgba(107,85,68,0.04), transparent 18%, transparent 82%, rgba(107,85,68,0.04));
+}
+
+.page.turning{
+  animation:pageLift .65s ease;
+  transform-origin:center center;
+}
+
+@keyframes pageLift{
+  0%{transform:rotateY(0deg) scale(1)}
+  40%{transform:rotateY(-8deg) scale(.992)}
+  100%{transform:rotateY(0deg) scale(1)}
 }
 
 .cover{
   display:flex;
   justify-content:center;
   align-items:center;
-  flex-direction:column;
+  text-align:center;
+  padding:44px 28px;
+  background:
+    radial-gradient(circle at top, rgba(255,255,255,0.9), transparent 28%),
+    linear-gradient(180deg, #fffdf9 0%, #f4eee7 100%);
+}
+
+.cover-inner{
+  max-width:560px;
+}
+
+.eyebrow{
+  font-size:12px;
+  letter-spacing:.4em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:20px;
 }
 
 .cover h1{
-  font-family:"Brush Script MT",cursive;
-  font-size:56px;
+  font-family:"Great Vibes", cursive;
+  font-size:clamp(56px, 10vw, 104px);
+  font-weight:400;
   margin:0;
+  line-height:.95;
+}
+
+.cover .subtitle{
+  font-family:"Cormorant Garamond", serif;
+  font-size:clamp(22px, 3vw, 30px);
+  margin:18px 0 0;
+}
+
+.cover .subcopy{
+  color:var(--muted);
+  margin-top:14px;
+  font-size:14px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+.cover-flourish{
+  width:110px;
+  height:1px;
+  margin:28px auto 0;
+  background:linear-gradient(90deg, transparent, rgba(88,69,57,0.4), transparent);
 }
 
 .menu{
   display:grid;
-  grid-template-columns:70px 1fr;
-  gap:12px;
+  grid-template-columns:72px 1fr;
+  gap:14px;
+  padding:26px 20px 30px 16px;
 }
 
 .vertical{
   writing-mode:vertical-rl;
   transform:rotate(180deg);
-  font-family:"Brush Script MT",cursive;
-  font-size:60px;
+  font-family:"Great Vibes", cursive;
+  font-size:clamp(46px, 6vw, 82px);
+  line-height:1;
+  color:#382922;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-shadow:0 4px 12px rgba(0,0,0,0.05);
+}
+
+.menu-content{
+  padding-right:8px;
 }
 
 .section{
-  margin-bottom:24px;
+  padding:0 0 16px;
+  margin-bottom:18px;
+  border-bottom:1px solid var(--line);
+}
+
+.section:last-child{
+  border-bottom:none;
+  margin-bottom:0;
+  padding-bottom:0;
 }
 
 .section h2{
-  font-size:14px;
-  letter-spacing:4px;
+  font-family:"Inter", sans-serif;
+  font-size:12px;
+  letter-spacing:.34em;
   text-transform:uppercase;
-  margin-bottom:10px;
+  margin:0 0 12px;
+  color:#5d4a3f;
+  font-weight:600;
 }
 
 .section p{
-  margin:6px 0;
+  margin:8px 0;
+  font-family:"Cormorant Garamond", serif;
   font-style:italic;
+  font-size:clamp(22px, 2.6vw, 28px);
+  line-height:1.03;
 }
 
 .back{
-  position:relative;
   padding:0;
 }
 
@@ -116,141 +264,289 @@ button:disabled{
   width:100%;
   height:100%;
   object-fit:cover;
+  display:block;
+  filter:saturate(.98) contrast(1.03) brightness(.95);
+}
+
+.back::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg, rgba(0,0,0,0.06), rgba(0,0,0,0.22));
+}
+
+.back-note{
+  position:absolute;
+  left:20px;
+  bottom:20px;
+  z-index:2;
+  padding:14px 16px;
+  border-radius:18px;
+  background:rgba(255,255,255,0.75);
+  backdrop-filter:blur(8px);
+  max-width:250px;
+  box-shadow:0 10px 22px rgba(22,14,10,0.12);
+}
+
+.back-note strong{
+  display:block;
+  font-size:11px;
+  letter-spacing:.32em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+
+.back-note span{
+  font-family:"Cormorant Garamond", serif;
+  font-size:22px;
+  line-height:1.04;
 }
 
 .indicators{
   display:flex;
   justify-content:center;
-  gap:8px;
-  margin-top:10px;
+  gap:10px;
+  margin-top:12px;
 }
 
 .dot{
   width:10px;
   height:10px;
-  border-radius:10px;
-  background:#a8a29e;
+  border-radius:999px;
+  background:#b9ada3;
+  transition:all .28s ease;
+  cursor:pointer;
 }
 
 .dot.active{
-  width:30px;
-  background:#292524;
+  width:34px;
+  background:#3b2c23;
 }
 
-@media (max-width:600px){
-  .cover h1{font-size:40px}
-  .vertical{font-size:40px}
+.helper{
+  text-align:center;
+  margin-top:10px;
+  font-size:12px;
+  color:var(--muted);
+}
+
+@media (max-width:720px){
+  body{padding:12px}
+
+  .container{
+    border-radius:24px;
+    padding:12px;
+  }
+
+  .nav{
+    flex-wrap:wrap;
+  }
+
+  .nav-center{
+    width:100%;
+    order:-1;
+    margin-bottom:4px;
+  }
+
+  button{
+    flex:1;
+    min-width:0;
+  }
+
+  .viewer{
+    border-radius:20px;
+  }
+
+  .page-wrap{
+    padding:10px 4px 10px;
+  }
+
+  .page{
+    min-height:78svh;
+    border-radius:20px;
+  }
+
+  .cover{
+    padding:32px 20px;
+  }
+
+  .cover .subcopy{
+    font-size:12px;
+    letter-spacing:.08em;
+  }
+
+  .menu{
+    grid-template-columns:54px 1fr;
+    gap:10px;
+    padding:18px 12px 22px 10px;
+  }
+
+  .section h2{
+    font-size:11px;
+    letter-spacing:.2em;
+  }
+
+  .section p{
+    font-size:22px;
+  }
+
+  .back-note{
+    left:14px;
+    right:14px;
+    bottom:14px;
+    max-width:none;
+  }
 }
 </style>
 </head>
-
 <body>
 
-<div class="container">
+<div class="scene">
+  <div class="container">
+    <div class="nav">
+      <button id="prev">Anterior</button>
 
-<div class="nav">
-<button id="prev">Anterior</button>
-<div id="label">Portada</div>
-<button id="next">Siguiente</button>
-</div>
+      <div class="nav-center">
+        <div class="kicker">Tríptico interactivo</div>
+        <div id="label">Portada</div>
+      </div>
 
-<div class="viewer" id="viewer">
+      <button id="next">Siguiente</button>
+    </div>
 
-<div class="slider" id="slider">
+    <div class="viewer" id="viewer">
+      <div class="slider" id="slider">
 
-<div class="page cover">
-<p>Portada</p>
-<h1>Divina comida</h1>
-<p>Una experiencia para compartir</p>
-</div>
+        <div class="page-wrap">
+          <div class="page cover" id="page0">
+            <div class="cover-inner">
+              <div class="eyebrow">Portada</div>
+              <h1>Divina comida</h1>
+              <p class="subtitle">Menú de celebración</p>
+              <div class="cover-flourish"></div>
+              <p class="subcopy">Una experiencia para compartir</p>
+            </div>
+          </div>
+        </div>
 
-<div class="page menu">
-<div class="vertical">Menu</div>
-<div>
+        <div class="page-wrap">
+          <div class="page menu" id="page1">
+            <div class="vertical">Menu</div>
+            <div class="menu-content">
+              <div class="section">
+                <h2>Entradas</h2>
+                <p>Burrata con pesto y zanahoria asada</p>
+                <p>Crema de puerro y papa</p>
+                <p>Pan artesanal</p>
+              </div>
 
-<div class="section">
-<h2>Entradas</h2>
-<p>Burrata con pesto y zanahoria asada</p>
-<p>Crema de puerro y papa</p>
-<p>Pan artesanal</p>
-</div>
+              <div class="section">
+                <h2>Fondos</h2>
+                <p>Lomo vetado con mantequilla</p>
+                <p>Halibut asado</p>
+                <p>Pollo al tomillo</p>
+              </div>
 
-<div class="section">
-<h2>Fondos</h2>
-<p>Lomo vetado con mantequilla</p>
-<p>Halibut asado</p>
-<p>Pollo al tomillo</p>
-</div>
+              <div class="section">
+                <h2>Acompañamientos</h2>
+                <p>Broccolini al ajo</p>
+                <p>Papas doradas</p>
+              </div>
 
-<div class="section">
-<h2>Acompañamientos</h2>
-<p>Broccolini al ajo</p>
-<p>Papas doradas</p>
-</div>
+              <div class="section">
+                <h2>Postres</h2>
+                <p>Torta, baklava y profiteroles</p>
+              </div>
+            </div>
+          </div>
+        </div>
 
-<div class="section">
-<h2>Postres</h2>
-<p>Torta, baklava y profiteroles</p>
-</div>
+        <div class="page-wrap">
+          <div class="page back" id="page2">
+            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1400&q=80" alt="Mesa con comida elegante">
+            <div class="back-note">
+              <strong>Reverso</strong>
+              <span>Sabores pensados para un momento especial</span>
+            </div>
+          </div>
+        </div>
 
-</div>
-</div>
+      </div>
+    </div>
 
-<div class="page back">
-<img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80">
-</div>
+    <div class="indicators">
+      <div class="dot active" data-page="0"></div>
+      <div class="dot" data-page="1"></div>
+      <div class="dot" data-page="2"></div>
+    </div>
 
-</div>
-</div>
-
-<div class="indicators">
-<div class="dot active"></div>
-<div class="dot"></div>
-<div class="dot"></div>
-</div>
-
+    <div class="helper">Desliza con el dedo o usa los botones para navegar</div>
+  </div>
 </div>
 
 <script>
-let page=0
-const slider=document.getElementById("slider")
-const dots=document.querySelectorAll(".dot")
-const label=document.getElementById("label")
-const names=["Portada","Menú","Reverso"]
+let page = 0;
+const totalPages = 3;
+const slider = document.getElementById("slider");
+const dots = document.querySelectorAll(".dot");
+const label = document.getElementById("label");
+const viewer = document.getElementById("viewer");
+const prevBtn = document.getElementById("prev");
+const nextBtn = document.getElementById("next");
+const names = ["Portada", "Menú", "Reverso"];
+let startX = 0;
+
+function animateCurrentPage(){
+  const current = document.getElementById(`page${page}`);
+  if(!current) return;
+  current.classList.remove("turning");
+  void current.offsetWidth;
+  current.classList.add("turning");
+}
 
 function update(){
- slider.style.transform=`translateX(-${page*100}%)`
- dots.forEach(d=>d.classList.remove("active"))
- dots[page].classList.add("active")
- label.textContent=names[page]
+  slider.style.transform = `translateX(-${page * 100}%)`;
+  dots.forEach(dot => dot.classList.remove("active"));
+  dots[page].classList.add("active");
+  label.textContent = names[page];
+  prevBtn.disabled = page === 0;
+  nextBtn.disabled = page === totalPages - 1;
+  animateCurrentPage();
 }
 
-document.getElementById("next").onclick=()=>{
- if(page<2){page++;update()}
+function goToPage(newPage){
+  if(newPage < 0 || newPage > totalPages - 1 || newPage === page) return;
+  page = newPage;
+  update();
 }
 
-document.getElementById("prev").onclick=()=>{
- if(page>0){page--;update()}
-}
+nextBtn.addEventListener("click", () => goToPage(page + 1));
+prevBtn.addEventListener("click", () => goToPage(page - 1));
 
-let startX=0
+dots.forEach(dot => {
+  dot.addEventListener("click", () => {
+    goToPage(Number(dot.dataset.page));
+  });
+});
 
-document.getElementById("viewer").addEventListener("touchstart",e=>{
- startX=e.touches[0].clientX
-})
+viewer.addEventListener("touchstart", e => {
+  startX = e.touches[0].clientX;
+}, { passive:true });
 
-document.getElementById("viewer").addEventListener("touchend",e=>{
- let endX=e.changedTouches[0].clientX
- let diff=startX-endX
+viewer.addEventListener("touchend", e => {
+  const endX = e.changedTouches[0].clientX;
+  const diff = startX - endX;
 
- if(diff>50 && page<2){page++}
- if(diff<-50 && page>0){page--}
+  if(diff > 50) goToPage(page + 1);
+  if(diff < -50) goToPage(page - 1);
+}, { passive:true });
 
- update()
-})
-
+update();
 </script>
 
 </body>
 </html>
+
+
 
