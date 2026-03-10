@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Divina comida</title>
+  <meta name="description" content="Divina comida — Menú y experiencia para compartir. Viernes 13 de Marzo.">
+  <meta name="theme-color" content="#e7e1da">
+  <!-- Open Graph -->
+  <meta property="og:title" content="Divina comida">
+  <meta property="og:description" content="Menú y experiencia para compartir — Viernes 13 de Marzo.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="familia.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Great+Vibes&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -319,6 +326,11 @@ button:disabled{
   cursor:pointer;
 }
 
+.dot:focus{
+  outline:3px solid rgba(59,44,35,0.18);
+  outline-offset:4px;
+}
+
 .dot.active{
   width:34px;
   background:#3b2c23;
@@ -405,14 +417,14 @@ button:disabled{
 <div class="scene">
   <div class="container">
     <div class="nav">
-      <button id="prev">Anterior</button>
+  <button id="prev" type="button">Anterior</button>
 
       <div class="nav-center">
         <div class="kicker">MENU INTERACTIVO</div>
-        <div id="label">BIENVENIDO A LA EXPERIENCIA</div>
+        <div id="label" aria-live="polite">BIENVENIDO A LA EXPERIENCIA</div>
       </div>
 
-      <button id="next">Siguiente</button>
+  <button id="next" type="button">Siguiente</button>
     </div>
 
     <div class="viewer" id="viewer">
@@ -464,7 +476,7 @@ button:disabled{
 
         <div class="page-wrap">
           <div class="page back" id="page2">
-            <img src="familia.jpg" alt="Nuestra familia">">
+            <img src="familia.jpg" alt="Nuestra familia" loading="lazy">
             <div class="back-note">
               <strong>Reverso</strong>
               <span>Sabores pensados para un momento especial</span>
@@ -475,10 +487,10 @@ button:disabled{
       </div>
     </div>
 
-    <div class="indicators">
-      <div class="dot active" data-page="0"></div>
-      <div class="dot" data-page="1"></div>
-      <div class="dot" data-page="2"></div>
+    <div class="indicators" role="tablist" aria-label="Navegación de páginas">
+      <div class="dot active" data-page="0" role="tab" tabindex="0" aria-selected="true" aria-label="Portada"></div>
+      <div class="dot" data-page="1" role="tab" tabindex="-1" aria-selected="false" aria-label="Menú"></div>
+      <div class="dot" data-page="2" role="tab" tabindex="-1" aria-selected="false" aria-label="Reverso"></div>
     </div>
 
     <div class="helper">Desliza con el dedo o usa los botones para navegar</div>
@@ -509,6 +521,11 @@ function update(){
   slider.style.transform = `translateX(-${page * 100}%)`;
   dots.forEach(dot => dot.classList.remove("active"));
   dots[page].classList.add("active");
+  // sincronizar atributos accesibles
+  dots.forEach((d, i) => {
+    d.setAttribute('aria-selected', String(i === page));
+    d.setAttribute('tabindex', i === page ? '0' : '-1');
+  });
   label.textContent = names[page];
   prevBtn.disabled = page === 0;
   nextBtn.disabled = page === totalPages - 1;
@@ -524,10 +541,34 @@ function goToPage(newPage){
 nextBtn.addEventListener("click", () => goToPage(page + 1));
 prevBtn.addEventListener("click", () => goToPage(page - 1));
 
-dots.forEach(dot => {
+dots.forEach((dot, idx) => {
   dot.addEventListener("click", () => {
     goToPage(Number(dot.dataset.page));
   });
+  dot.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      goToPage(Number(dot.dataset.page));
+    }
+    if(e.key === 'ArrowLeft'){
+      e.preventDefault();
+      const prev = idx - 1 >= 0 ? idx - 1 : 0;
+      goToPage(prev);
+      dots[prev].focus();
+    }
+    if(e.key === 'ArrowRight'){
+      e.preventDefault();
+      const next = idx + 1 < dots.length ? idx + 1 : dots.length - 1;
+      goToPage(next);
+      dots[next].focus();
+    }
+  });
+});
+
+// navegación por teclado global (flechas)
+document.addEventListener('keydown', (e) => {
+  if(e.key === 'ArrowLeft') goToPage(page - 1);
+  if(e.key === 'ArrowRight') goToPage(page + 1);
 });
 
 viewer.addEventListener("touchstart", e => {
