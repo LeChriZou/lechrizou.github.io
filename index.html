@@ -11,6 +11,7 @@
   <meta property="og:description" content="Menú y experiencia para compartir — Viernes 13 de Marzo.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="familia.jpg">
+  <!-- Recomendado: colocar portada.jpg en la raíz del proyecto para que la portada y las redes sociales usen la imagen local -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Great+Vibes&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -169,8 +170,8 @@ button:disabled{
     radial-gradient(circle at top, rgba(255,255,255,0.85), transparent 28%),
     /* subtle paper gradient fallback */
     linear-gradient(180deg, rgba(255,253,249,0.95) 0%, rgba(244,238,231,0.95) 100%),
-    /* Unsplash hotlink (photo id from the URL you provided). You can change size or use a local file. */
-    url('https://source.unsplash.com/vA1L1jRTM70/1600x900') center/cover no-repeat;
+  /* Use a local image named 'portada.jpg' (put it in the project root). */
+  url('portada.jpg') center/cover no-repeat;
 }
 
 .cover-inner{
