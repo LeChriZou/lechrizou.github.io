@@ -163,9 +163,14 @@ button:disabled{
   align-items:center;
   text-align:center;
   padding:44px 28px;
+  /* Background image from Unsplash with a light overlay to preserve legibility.
+     Option: replace the URL below with a local file like 'portada.jpg' if you download the image. */
   background:
-    radial-gradient(circle at top, rgba(255,255,255,0.9), transparent 28%),
-    linear-gradient(180deg, #fffdf9 0%, #f4eee7 100%);
+    radial-gradient(circle at top, rgba(255,255,255,0.85), transparent 28%),
+    /* subtle paper gradient fallback */
+    linear-gradient(180deg, rgba(255,253,249,0.95) 0%, rgba(244,238,231,0.95) 100%),
+    /* Unsplash hotlink (photo id from the URL you provided). You can change size or use a local file. */
+    url('https://source.unsplash.com/vA1L1jRTM70/1600x900') center/cover no-repeat;
 }
 
 .cover-inner{
@@ -183,7 +188,7 @@ button:disabled{
 .cover h1{
   font-family:"Great Vibes", cursive;
   font-size:clamp(56px, 10vw, 104px);
-  color:#ce3a16; /* rojo */
+  color:#c7251f; /* rojo */
   font-weight:400;
   margin:0;
   line-height:.95;
